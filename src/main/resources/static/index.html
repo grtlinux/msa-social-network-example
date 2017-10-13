@@ -6,11 +6,76 @@
 <link rel="stylesheet" href="https://unpkg.com/vue-material@0.7.1/dist/vue-material.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+<script type="text/x-template" id="sns-new-post-template">
+
+    <div>
+
+
+        <md-tabs>
+            <md-tab id="micro-blog" md-label="Text">
+                <form novalidate @submit.stop.prevent="submit">
+                    <md-input-container>
+                        <label>What will you do now ?</label>
+                        <md-input v-model="microBlogContent"></md-input>
+                    </md-input-container>
+                </form>
+
+            </md-tab>
+            <md-tab id="file" md-label="File">
+                <form novalidate @submit.stop.prevent="submit">
+                    <md-input-container>
+                        <label>Choose file</label>
+                        <md-file v-model="fileContent"></md-file>
+                    </md-input-container>
+                </form>
+
+            </md-tab>
+            <md-tab id="poll" md-label="Poll">
+                <form novalidate @submit.stop.prevent="submit">
+                    <md-input-container v-for="(option, index) in options">
+                        <label>Option {{index+1}}</label>
+                        <md-input v-model="option"></md-input>
+                    </md-input-container>
+
+                    <md-button @click.native="addOption">+</md-button>
+                </form>
+
+            </md-tab>
+        </md-tabs>
+
+        <md-button>Post</md-button>
+
+    </div>
+
+</script>
+
+
 <script>
 
     Vue.use(VueMaterial)
 
+    Vue.component('sns-new-post', {
+        template: "#sns-new-post-template",
+        props: {
+            microBlogContent: String,
+            fileContent: Object,
+            options: Array,
+            option: String
+        },
+        data:{
+
+        },
+        methods: {
+
+            addOption: function(){
+                this.options.push('Option')
+            }
+        }
+
+    });
+
 </script>
+
 
 
 <div id="app">
@@ -19,41 +84,7 @@
         <img src="https://avatars1.githubusercontent.com/u/487999?s=460&v=4" alt="People">
     </md-avatar>
 
-
-    <md-tabs>
-        <md-tab id="micro-blog" md-label="Text">
-            <form novalidate @submit.stop.prevent="submit">
-                <md-input-container>
-                    <label>What will you do now ?</label>
-                    <md-input v-model="microBlogContent"></md-input>
-                </md-input-container>
-            </form>
-
-        </md-tab>
-        <md-tab id="file" md-label="File">
-            <form novalidate @submit.stop.prevent="submit">
-                <md-input-container>
-                    <label>Choose file</label>
-                    <md-file v-model="fileContent"></md-file>
-                </md-input-container>
-            </form>
-
-        </md-tab>
-        <md-tab id="poll" md-label="Poll">
-            <form novalidate @submit.stop.prevent="submit">
-                <md-input-container v-for="(option, index) in options">
-                    <label>Option {{index+1}}</label>
-                    <md-input v-model="option"></md-input>
-                </md-input-container>
-
-                <md-button @click.native="addOption">+</md-button>
-            </form>
-
-        </md-tab>
-    </md-tabs>
-
-    <md-button>Post</md-button>
-
+    <sns-new-post :file-content="{}" micro-blog-content="" :options="['Option']"></sns-new-post>
 
 
     <md-card>
@@ -142,17 +173,9 @@
     var app = new Vue({
         el: '#app',
         data:{
-            microBlogContent: '',
-            fileContent: null,
-            options: ['Option 1'],
+
             loaded: false
         },
-        methods: {
-
-            addOption: function(){
-                this.options.push('Option')
-            }
-        }
     })
 
 
