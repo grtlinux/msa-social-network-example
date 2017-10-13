@@ -1,4 +1,4 @@
-package com.autoinsurance;
+package com.social;
 
 import org.metaworks.springboot.configuration.Metaworks4BaseApplication;
 import org.springframework.beans.factory.ObjectProvider;

@@ -1,4 +1,4 @@
-package com.autoinsurance;
+package com.social;
 
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.metaworks.multitenancy.ClassManager;

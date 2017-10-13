@@ -16,7 +16,7 @@
                 <form novalidate @submit.stop.prevent="submit">
                     <md-input-container>
                         <label>What will you do now ?</label>
-                        <md-input v-model="microBlogContent"></md-input>
+                        <md-input v-model="content"></md-input>
                     </md-input-container>
                 </form>
 
@@ -43,7 +43,7 @@
             </md-tab>
         </md-tabs>
 
-        <md-button>Post</md-button>
+        <md-button @click.native="post">Post</md-button>
 
     </div>
 
@@ -54,9 +54,11 @@
 
 
     <md-card>
-        <md-card-media>
+        <md-card-media v-if="previewUrl">
             <img :src="previewUrl" alt="People">
         </md-card-media>
+        <md-spinner :md-size="150" md-indeterminate v-else></md-spinner>
+
 
         <md-card-header>
             <md-avatar class="md-large">
@@ -64,7 +66,7 @@
             </md-avatar>
 
             <div class="md-title"> {{title}} </div>
-            <div class="md-subhead"> {{}} </div>
+            <div class="md-subhead"> {{content.substring(100)}} </div>
         </md-card-header>
 
         <md-card-actions>
@@ -122,6 +124,20 @@
 
             addOption: function(){
                 this.options.push('Option')
+            },
+
+            post: function(){
+                var xhr = new XMLHttpRequest()
+
+                var self = this
+                xhr.open('POST', "http://localhost:8080/posting");
+                xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+
+                xhr.onload = function () {
+                    //refresh.
+                }
+                xhr.send()
+
             }
         }
 
@@ -184,23 +200,17 @@
     <sns-new-post :file-content="{}" micro-blog-content="" :options="['Option']"></sns-new-post>
 
 
+    <md-spinner :md-size="150" md-indeterminate v-if="posts==null"></md-spinner>
 
-    <sns-poll-post
-        title="Today's dinner?"
-        content="Please select dinner among these:"
-        :options="['Coffee','Pizza','Cake']"
+    <component v-if="posts!=null" v-for="post in posts" :is="'sns-' + post.type + '-post'"
+               :title="post.title"
+               :content="post.content"
+               :options="post.options"
+               :preview-url = "post.previewUrl"
 
-    ></sns-poll-post>
+    ></component>
 
 
-
-    <md-spinner :md-size="150" md-indeterminate v-if="!loaded"></md-spinner>
-    <sns-file-post v-if="loaded"
-        preview-url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR865IiwFPWIGmdR1bOsPsQEPHdZgZRn989iZ6FVrdgD_g3aABN"
-        title = "Autumn leaves!"
-        content="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea, nostrum odio. Dolores, sed accusantium quasi non, voluptas eius illo quas, saepe voluptate pariatur in deleniti minus sint."
-
-    ></sns-file-post>
 </div>
 
 
@@ -209,13 +219,41 @@
     var app = new Vue({
         el: '#app',
         data:{
-
-            loaded: false
+            posts: null
         },
+
+        created: function () {
+            var xhr = new XMLHttpRequest()
+
+            var self = this
+            xhr.open('GET', "http://localhost:8080/posting");
+            xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+
+            xhr.onload = function () {
+                self.posts = JSON.parse(xhr.responseText)._embedded.postings;
+
+                self.posts.each(function(post){
+                   var detailUrl = post.detailUrl;
+
+                    var xhr = new XMLHttpRequest()
+
+                    var self = this
+                    xhr.open('GET', detailUrl);
+                    xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+
+                    xhr.onload = function () {
+
+                        var details = JSON.parse(xhr.responseText);
+
+                        self.previewUrl = details.previewUrl;
+                    }
+                });
+            }
+            xhr.send()
+        }
     })
 
 
-    setTimeout(function (){app.loaded = true}, 5000);
 
 
 </script>
