@@ -1,0 +1,162 @@
+<script src="https://unpkg.com/vue"></script>
+
+<script src="https://unpkg.com/vue"></script>
+<script src="https://unpkg.com/vue-material@0.7.1"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.3/require.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/vue-material@0.7.1/dist/vue-material.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<script>
+
+    Vue.use(VueMaterial)
+
+</script>
+
+
+<div id="app">
+
+    <md-avatar class="md-avatar-icon">
+        <img src="https://avatars1.githubusercontent.com/u/487999?s=460&v=4" alt="People">
+    </md-avatar>
+
+
+    <md-tabs>
+        <md-tab id="micro-blog" md-label="Text">
+            <form novalidate @submit.stop.prevent="submit">
+                <md-input-container>
+                    <label>What will you do now ?</label>
+                    <md-input v-model="microBlogContent"></md-input>
+                </md-input-container>
+            </form>
+
+        </md-tab>
+        <md-tab id="file" md-label="File">
+            <form novalidate @submit.stop.prevent="submit">
+                <md-input-container>
+                    <label>Choose file</label>
+                    <md-file v-model="fileContent"></md-file>
+                </md-input-container>
+            </form>
+
+        </md-tab>
+        <md-tab id="poll" md-label="Poll">
+            <form novalidate @submit.stop.prevent="submit">
+                <md-input-container v-for="(option, index) in options">
+                    <label>Option {{index+1}}</label>
+                    <md-input v-model="option"></md-input>
+                </md-input-container>
+
+                <md-button @click.native="addOption">+</md-button>
+            </form>
+
+        </md-tab>
+    </md-tabs>
+
+    <md-button>Post</md-button>
+
+
+
+    <md-card>
+        <md-card-media>
+            <img src="https://cdn20.patchcdn.com/users/22921643/20170915/101445/styles/T800x600/public/processed_images/fall-1072821_340-1505484740-495.jpg" alt="People">
+        </md-card-media>
+
+        <md-card-header>
+            <md-avatar class="md-large">
+                <img src="https://avatars1.githubusercontent.com/u/487999?s=460&v=4" alt="People">
+            </md-avatar>
+
+            <div class="md-title">Fall leaves!</div>
+            <div class="md-subhead">Enjoy it</div>
+        </md-card-header>
+
+        <md-card-actions>
+            <md-button>Like</md-button>
+            <md-button>Share</md-button>
+        </md-card-actions>
+
+        <md-card-content>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea, nostrum odio. Dolores, sed accusantium quasi non, voluptas eius illo quas, saepe voluptate pariatur in deleniti minus sint. Excepturi.
+
+
+
+        </md-card-content>
+    </md-card>
+
+
+    <md-card>
+        <md-card-header>
+            <md-avatar class="md-large">
+                <img src="https://avatars2.githubusercontent.com/u/13447690?s=64&v=4" alt="People">
+            </md-avatar>
+
+            <div class="md-title">Today's schedule</div>
+            <div class="md-subhead">I'm too busy today</div>
+        </md-card-header>
+
+        <md-card-actions>
+            <md-button>Like</md-button>
+            <md-button>Share</md-button>
+        </md-card-actions>
+
+        <md-card-content>
+            1. todo1
+            2. todo2
+            3. todo3
+        </md-card-content>
+    </md-card>
+
+
+    <md-spinner :md-size="150" md-indeterminate v-if="!loaded"></md-spinner>
+    <md-card v-if="loaded">
+        <md-card-media>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR865IiwFPWIGmdR1bOsPsQEPHdZgZRn989iZ6FVrdgD_g3aABN" alt="People">
+        </md-card-media>
+
+        <md-card-header>
+            <md-avatar class="md-large">
+                <img src="https://avatars1.githubusercontent.com/u/487999?s=460&v=4" alt="People">
+            </md-avatar>
+
+            <div class="md-title">Autumn leaves!</div>
+            <div class="md-subhead">Enjoy it</div>
+        </md-card-header>
+
+        <md-card-actions>
+            <md-button>Like</md-button>
+            <md-button>Share</md-button>
+        </md-card-actions>
+
+        <md-card-content>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea, nostrum odio. Dolores, sed accusantium quasi non, voluptas eius illo quas, saepe voluptate pariatur in deleniti minus sint. Excepturi.
+
+
+
+        </md-card-content>
+    </md-card>
+</div>
+
+
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data:{
+            microBlogContent: '',
+            fileContent: null,
+            options: ['Option 1'],
+            loaded: false
+        },
+        methods: {
+
+            addOption: function(){
+                this.options.push('Option')
+            }
+        }
+    })
+
+
+    setTimeout(function (){app.loaded = true}, 5000);
+
+
+</script>
