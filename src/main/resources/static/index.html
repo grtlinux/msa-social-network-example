@@ -50,6 +50,59 @@
 </script>
 
 
+<script type="text/x-template" id="sns-file-post-template">
+
+
+    <md-card>
+        <md-card-media>
+            <img :src="previewUrl" alt="People">
+        </md-card-media>
+
+        <md-card-header>
+            <md-avatar class="md-large">
+                <img src="https://avatars1.githubusercontent.com/u/487999?s=460&v=4" alt="People">
+            </md-avatar>
+
+            <div class="md-title"> {{title}} </div>
+            <div class="md-subhead"> {{}} </div>
+        </md-card-header>
+
+        <md-card-actions>
+            <md-button @click.native="like">Like</md-button>
+            <md-button @click.native="share">Share</md-button>
+        </md-card-actions>
+
+        <md-card-content>
+            {{content}}
+        </md-card-content>
+    </md-card>
+
+</script>
+
+
+<script type="text/x-template" id="sns-poll-post-template">
+
+    <md-card>
+        <md-card-header>
+            <md-avatar class="md-large">
+                <img src="https://avatars2.githubusercontent.com/u/13447690?s=64&v=4" alt="People">
+            </md-avatar>
+
+            <div class="md-title"> {{title}}</div>
+            <div class="md-subhead"> {{ content }} </div>
+        </md-card-header>
+
+        <md-card-actions>
+            <md-button>Like</md-button>
+            <md-button>Share</md-button>
+        </md-card-actions>
+
+        <md-card-content>
+            <md-check v-for="option in options">{{option}}</md-check>
+        </md-card-content>
+    </md-card>
+</script>
+
 <script>
 
     Vue.use(VueMaterial)
@@ -74,6 +127,50 @@
 
     });
 
+    Vue.component('sns-file-post', {
+        template: "#sns-file-post-template",
+        props: {
+            previewUrl: String,
+            title: String,
+            content: String,
+        },
+        data:{
+
+        },
+        methods: {
+
+            like: function(){
+                alert('liked')
+            },
+            share: function () {
+                alert('share!')
+            }
+        }
+
+    });
+
+    Vue.component('sns-poll-post', {
+        template: "#sns-poll-post-template",
+        props: {
+            title: String,
+            content: String,
+            options: Array
+        },
+        data:{
+
+        },
+        methods: {
+
+            like: function(){
+                alert('liked')
+            },
+            share: function () {
+                alert('share!')
+            }
+        }
+
+    });
+
 </script>
 
 
@@ -87,84 +184,23 @@
     <sns-new-post :file-content="{}" micro-blog-content="" :options="['Option']"></sns-new-post>
 
 
-    <md-card>
-        <md-card-media>
-            <img src="https://cdn20.patchcdn.com/users/22921643/20170915/101445/styles/T800x600/public/processed_images/fall-1072821_340-1505484740-495.jpg" alt="People">
-        </md-card-media>
 
-        <md-card-header>
-            <md-avatar class="md-large">
-                <img src="https://avatars1.githubusercontent.com/u/487999?s=460&v=4" alt="People">
-            </md-avatar>
+    <sns-poll-post
+        title="Today's dinner?"
+        content="Please select dinner among these:"
+        :options="['Coffee','Pizza','Cake']"
 
-            <div class="md-title">Fall leaves!</div>
-            <div class="md-subhead">Enjoy it</div>
-        </md-card-header>
+    ></sns-poll-post>
 
-        <md-card-actions>
-            <md-button>Like</md-button>
-            <md-button>Share</md-button>
-        </md-card-actions>
-
-        <md-card-content>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea, nostrum odio. Dolores, sed accusantium quasi non, voluptas eius illo quas, saepe voluptate pariatur in deleniti minus sint. Excepturi.
-
-
-
-        </md-card-content>
-    </md-card>
-
-
-    <md-card>
-        <md-card-header>
-            <md-avatar class="md-large">
-                <img src="https://avatars2.githubusercontent.com/u/13447690?s=64&v=4" alt="People">
-            </md-avatar>
-
-            <div class="md-title">Today's schedule</div>
-            <div class="md-subhead">I'm too busy today</div>
-        </md-card-header>
-
-        <md-card-actions>
-            <md-button>Like</md-button>
-            <md-button>Share</md-button>
-        </md-card-actions>
-
-        <md-card-content>
-            1. todo1
-            2. todo2
-            3. todo3
-        </md-card-content>
-    </md-card>
 
 
     <md-spinner :md-size="150" md-indeterminate v-if="!loaded"></md-spinner>
-    <md-card v-if="loaded">
-        <md-card-media>
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR865IiwFPWIGmdR1bOsPsQEPHdZgZRn989iZ6FVrdgD_g3aABN" alt="People">
-        </md-card-media>
+    <sns-file-post v-if="loaded"
+        preview-url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR865IiwFPWIGmdR1bOsPsQEPHdZgZRn989iZ6FVrdgD_g3aABN"
+        title = "Autumn leaves!"
+        content="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea, nostrum odio. Dolores, sed accusantium quasi non, voluptas eius illo quas, saepe voluptate pariatur in deleniti minus sint."
 
-        <md-card-header>
-            <md-avatar class="md-large">
-                <img src="https://avatars1.githubusercontent.com/u/487999?s=460&v=4" alt="People">
-            </md-avatar>
-
-            <div class="md-title">Autumn leaves!</div>
-            <div class="md-subhead">Enjoy it</div>
-        </md-card-header>
-
-        <md-card-actions>
-            <md-button>Like</md-button>
-            <md-button>Share</md-button>
-        </md-card-actions>
-
-        <md-card-content>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea, nostrum odio. Dolores, sed accusantium quasi non, voluptas eius illo quas, saepe voluptate pariatur in deleniti minus sint. Excepturi.
-
-
-
-        </md-card-content>
-    </md-card>
+    ></sns-file-post>
 </div>
 
 
