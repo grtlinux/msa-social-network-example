@@ -1,8 +1,6 @@
 package com.social;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by uengine on 2017. 10. 13..
@@ -18,6 +16,24 @@ public class Posting {
     String title;
     String content;
     String type;
+    Object extendedContent;
+
+    /**
+     * -- typed json ----
+     *
+     *      {
+     *          aaa: 'aaa'
+     *          bbb: 'bbb'
+     *          _type: 'com.abc.Person'
+     *      }
+     *
+     *
+     */
+
+    @ManyToOne
+    @JoinColumn(name="parentId")
+    Posting parentPosting;
+
 
     public String getDetailUrl() {
         return detailUrl;
