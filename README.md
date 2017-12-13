@@ -16,4 +16,4 @@ VueJS 의 MVVM 사상에 입각하여 만든 초간단 SNS 서비스 UI
 - 하디우스! (HATEOAS!)
 
 
-## 소스:  https://github.com/jinyoung/msa-social-network-example
+## 동영상:  https://www.facebook.com/1401720840/videos/10211682555925047/
